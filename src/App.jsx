@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import MovieList from './components/MovieList/MovieList';
+import axios from 'axios';
+
 
 
 function App() {
@@ -9,22 +11,32 @@ function App() {
     fetchMovies();
   }, []);
 
-  
-  
-  const fetchMovies = () =>{
-    setMovies([
-      { id: 1, title: 'The Godfather', director: 'Francis Ford Coppola' },
-      { id: 2, title: 'Star Wars', director: 'George Lucas' },
-      { id: 3, title: 'The Shawshank Redemption', director: 'Frank Darabont' },
-    ]);
+  // axios request to fetch movies from the API
+  const fetchMovies = async () => {
+    try {
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/trending/movie/day',
+        params: { language: 'en-US' },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NWUyYTNmMTAwN2MzNGE1MmJlMzc0NzZjMjRkMWNkZiIsIm5iZiI6MTczMjQ4MjQzNy41MDIsInN1YiI6IjY3NDM5NTg1NGQ1MGNjZDdkYTQ4YmJkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.9ginv8uLR5vR643vnfV1M1fS_x6n7IsJoqFXQKypknA'
+        },
+      };
+      const responce = await axios.request(options);
+      setMovies(responce.data.results);
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
-  
-  return(
+  return (
     <div>
       <MovieList moviesProp={movies} />
     </div>
-     )
+  )
 }
+
 
 export default App;
