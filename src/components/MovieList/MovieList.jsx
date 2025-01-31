@@ -5,7 +5,7 @@ const MovieList = ({ moviesProp }) => {
   return (
     <ul>
       {moviesProp.map((movie) => (
-        <li key={movie.id}>{movie.title} {movie.popularity}</li>
+        <li key={movie.id}>{movie.title} {movie.release_date}</li>
       ))}
     </ul>
   );
